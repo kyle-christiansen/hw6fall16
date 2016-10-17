@@ -1,8 +1,6 @@
 
 source 'https://rubygems.org'
 
-ruby '2.3.0'
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use SCSS for stylesheets
@@ -55,13 +53,13 @@ end
 
 group :test do
   gem 'rspec-expectations'
-  gem 'cucumber-rails', :require=>false
+  gem 'cucumber-rails', :require => false
   gem 'capybara'
   gem 'database_cleaner'
+  gem 'simplecov', :require => false
 end
 
 group :production do
   gem 'pg' # for Heroku deployment
   gem 'rails_12factor'
 end
-
