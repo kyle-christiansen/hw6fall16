@@ -13,6 +13,7 @@
         %td= movie[:title]
         %td= movie[:rating]
         %td= movie[:release_date]
-        %td= check_box_tag movie[:tmdb_id]
+        %td=check_box_tag "tmdb_movies[#{movie[:tmdb_id]}]"
+
         
 = button_to "Add Selected Movies"
