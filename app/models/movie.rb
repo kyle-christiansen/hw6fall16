@@ -43,11 +43,17 @@ class Movie < ActiveRecord::Base
 
   def self.create_from_tmdb(tmdb_movie_id)
     Tmdb::Api.key("f4702b08c0ac6ea5b51425788bb26562")
-    movie_info = Tmdb::Movie.detail(tmdb_movie_id)
-    rating = getRating(tmdb_movie_id)
-    if rating.to_s.strip.length == 0
-      rating = "NR"
+    begin
+      movie_info = Tmdb::Movie.detail(tmdb_movie_id)
+      if(!movie_info.nil?)
+        rating = getRating(tmdb_movie_id)
+        if rating.to_s.strip.length == 0
+          rating = "NR"
+        end
+      end
+      return Movie.create!(:title => movie_info["title"], :rating => rating,:description => movie_info["overview"], :release_date => movie_info["release_date"])
+    rescue Tmdb::InvalidApiKeyError
+      raise Movie::InvalidKeyError, 'Invalid ID'
     end
-    Movie.create!(:title => movie_info["title"], :rating => rating,:description => movie_info["overview"], :release_date => movie_info["release_date"])
   end
 end
