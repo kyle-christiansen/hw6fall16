@@ -69,7 +69,7 @@ class MoviesController < ApplicationController
     else
       @movies = Movie.find_in_tmdb(@search_terms)
       if @movies.blank?
-        flash[:notice] = "No matching movies were found on TMDb"
+        flash[:warning] = "No matching movies were found on TMDb"
         redirect_to movies_path
       end
     end
@@ -83,7 +83,7 @@ class MoviesController < ApplicationController
       end
       flash[:notice] = "Movies successfully added to Rotten Potatoes"
     else
-      flash[:notice] = "No movies selected"
+      flash[:warning] = "No movies selected"
     end
     redirect_to movies_path
   end
