@@ -10,15 +10,18 @@ class Movie < ActiveRecord::Base
       @movieList=[]
       @movieRating = nil
       if @searchedMovies != nil
-        @searchedMovies.each do |movie|
+        @searchedMovies.each do |movie|    
           Tmdb::Movie.releases(movie.id)["countries"].each do |results|
             if results["iso_3166_1"] == "US"
               @movieRating = results["certification"]
+              break
             end
           end
           if @movieRating.to_s.strip.length == 0 
             @movieRating = "NR"
           end
+          
+          
           if !movie.release_date.blank?
             @movieList << {:title => movie.title, :rating => @movieRating, :tmdb_id => movie.id, :release_date => movie.release_date} 
           end
@@ -29,6 +32,8 @@ class Movie < ActiveRecord::Base
       raise Movie::InvalidKeyError, 'Invalid API key'
     end
   end
+  
+  
 
   def self.create_from_tmdb(tmdb_movie_id)
     Tmdb::Api.key("f4702b08c0ac6ea5b51425788bb26562")
